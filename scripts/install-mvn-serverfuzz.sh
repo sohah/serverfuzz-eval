@@ -1,3 +1,5 @@
+#!#!/bin/sh
+
 #assumes relative location to the serverfuzz jar location.
 #attempts to install the jars into local maven repo.
 
