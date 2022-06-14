@@ -7,7 +7,7 @@ import shutil
 
 
 CRITERIA='aws lambda s3'
-LIMIT=30
+LIMIT=2
 SUPPORTED_EVENTS=['com.amazonaws.services.lambda.runtime.events.S3Event', 'com.amazonaws.services.lambda.runtime.events.models.s3.S3EventNotification']
 
 ##assumes the existance of folder structure where ../git-repos folder exists relative to this script.
@@ -40,7 +40,7 @@ def remove_repo(path):
 
 def search_file_for_supported_aws_events(java_file):
     with open(java_file) as f:
-        code_str = f.readline()
+        code_str = f.read()
         # print(f'printing file content {code_str}')
         for event in SUPPORTED_EVENTS:
             print(f'event={event}')
@@ -53,7 +53,7 @@ def check_repo_contains_supported_event(repo_path):
     for java_file in find_files(repo_path, ['java']):
         has_aws_event = search_file_for_supported_aws_events(java_file)
 
-        if(has_aws_event):
+        if has_aws_event:
             print(f'{java_file} has the event we are looking for.')
             return True
 
@@ -64,10 +64,10 @@ def main():
     repos = run_git_search()
     count = 0
     # print('printing results\n')#, repos.stdout)
-    for repo in repos.stdout.split('\n'): #process every line seperately
+    for repo in repos.stdout.split('\n'): #process every line separately
         count +=1
         repo = repo.split('\t')[0]  #extract only the url
-        if(len(repo) > 0):
+        if len(repo) > 0:
 
             run_gitclone(repo, count)
             directory_name = repo.split('/')[1]
@@ -76,7 +76,7 @@ def main():
             # print(f'directory_name is = {directory_name}')
 
             repo_has_supported_event = check_repo_contains_supported_event(repo_path)
-            if(repo_has_supported_event):
+            if repo_has_supported_event:
                 run_maven(repo_path)
             else:
                 remove_repo(repo_path)
