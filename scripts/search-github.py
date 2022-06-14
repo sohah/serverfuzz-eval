@@ -8,7 +8,7 @@ import shutil
 
 CRITERIA='aws lambda s3'
 LIMIT=30
-SUPPORTED_EVENTS=['aws', 'com.amazonaws.services.lambda.runtime.events.S3Event', 'com.amazonaws.services.lambda.runtime.events.models.s3.S3EventNotification']
+SUPPORTED_EVENTS=['com.amazonaws.services.lambda.runtime.events.S3Event', 'com.amazonaws.services.lambda.runtime.events.models.s3.S3EventNotification']
 
 ##assumes the existance of folder structure where ../git-repos folder exists relative to this script.
 
