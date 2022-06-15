@@ -6,7 +6,7 @@ import shutil
 
 
 
-CRITERIA='aws lambda s3'
+CRITERIA='aws lambda'
 LIMIT=30
 SUPPORTED_EVENTS=['com.amazonaws.services.lambda.runtime.events.S3Event', 'com.amazonaws.services.lambda.runtime.events.models.s3.S3EventNotification']
 
@@ -28,6 +28,8 @@ def run_gitclone(repo, count):
     clone_command = f'git -C ../git-repos clone git@github.com:{repo}'
     subprocess.run(clone_command, shell=True, text=True)
 
+# another alternative for the github search where we search for the code, instead of repos. Command below.
+# gh api --method=GET "search/code?q=com.amazonaws.services.lambda.runtime.events.S3Event&sort=starts&access_token=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"
 
 def run_git_search():
     gh_command='gh search repos --language=java --limit %s \' %s\''%(LIMIT, CRITERIA)
@@ -43,7 +45,7 @@ def search_file_for_supported_aws_events(java_file):
         code_str = f.read()
         # print(f'printing file content {code_str}')
         for event in SUPPORTED_EVENTS:
-            print(f'event={event}')
+            # print(f'event={event}')
             if event in code_str:
                 return True
     return False
