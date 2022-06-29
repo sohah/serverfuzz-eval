@@ -38,11 +38,19 @@ public class BasicTest {
     }
 
 
-    @Fuzz
-    public void fuzzLambdaS3Event(@From(EnvironmentGenerator.class) Event env) throws IllegalArgumentException {
-        System.out.println("before running JQF Testcase " + testCount);
+  /*@Fuzz
+  public void fuzzLambdaS3Event(@From(EnvironmentGenerator.class) Event env) throws IllegalArgumentException {
+    System.out.println("before running JQF Testcase " + testCount);
 
-        (new ThumbnailHandler()).handleRequest((S3Event) env.event, null);
-        System.out.println("after running JQF Testcase " + testCount);
-    }
+    (new ThumbnailHandler()).handleRequest((S3Event) env.event, null);
+    System.out.println("after running JQF Testcase " + testCount);
+  }*/
+
+  @Fuzz(repro = "target/fuzz-results/BasicTest/fuzzLambdaS3Event/corpus")
+  public void fuzzLambdaS3EventRepro(@From(EnvironmentGenerator.class) Event env) throws IllegalArgumentException {
+    System.out.println("before running JQF Testcase " + testCount);
+
+    (new ThumbnailHandler()).handleRequest((S3Event) env.event, null);
+    System.out.println("after running JQF Testcase " + testCount);
+  }
 }
