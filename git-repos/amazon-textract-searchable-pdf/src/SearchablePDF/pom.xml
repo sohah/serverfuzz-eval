@@ -12,7 +12,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-textract</artifactId>
-            <version>1.11.637</version>
+            <version>1.12.253</version> <!-- Soha: I fixed the version from 1.11.637 to the current one, this allowed it to run and have no conflicts. -->
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
         <dependency>

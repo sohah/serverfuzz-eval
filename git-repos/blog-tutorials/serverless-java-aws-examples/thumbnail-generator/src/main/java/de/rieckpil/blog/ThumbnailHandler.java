@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.amazonaws.auth.profile.internal.ProfileKeyConstants.REGION;
-import static serverfuzz.env.S3Env.prepareS3;
+import static serverfuzz.ServiceBuilder.prepareS3;
 
 public class ThumbnailHandler implements RequestHandler<S3Event, Void> {
 
