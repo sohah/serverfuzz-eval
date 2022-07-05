@@ -18,7 +18,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.S3Event;
 import com.amazonaws.services.lambda.utils.EnvironmentVariableUtils;
-import com.amazonaws.services.s3.event.S3EventNotification;
+import com.amazonaws.services.lambda.runtime.events.models.s3.S3EventNotification;;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 
 import java.util.Arrays;
