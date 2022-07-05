@@ -52,7 +52,7 @@
         </dependency>
 
 
-<!--serverfuzz additions-->
+        <!--serverfuzz additions-->
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk</artifactId>
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>com.pholser</groupId>
             <artifactId>junit-quickcheck-core</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -104,7 +104,7 @@
         <dependency>
             <groupId>com.pholser</groupId>
             <artifactId>junit-quickcheck-generators</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
         <!--        dependency for generating java class files.-->
@@ -132,7 +132,7 @@
             <scope>compile</scope>
         </dependency>
 
-<!--        end of serverfuzz addition-->
+        <!--        end of serverfuzz addition-->
 
     </dependencies>
 
@@ -180,16 +180,8 @@
                 </configuration>
             </plugin>
 
-<!--serverfuzz additions-->
+            <!--serverfuzz additions-->
 
-            <plugin>
-                <groupId>edu.berkeley.cs.jqf</groupId>
-                <artifactId>jqf-maven-plugin</artifactId>
-                <version>1.9</version>
-            </plugin>
-
-            <!--            configuring jacoco plugin for instrumentation and coverage report-->
-            <!-- The JQF plugin, for invoking the command `mvn jqf:fuzz` -->
             <plugin>
                 <groupId>edu.berkeley.cs.jqf</groupId>
                 <artifactId>jqf-maven-plugin</artifactId>
@@ -238,7 +230,7 @@
                 </executions>
             </plugin>
 
-<!--            end of serverfuzz additions-->
+            <!--            end of serverfuzz additions-->
         </plugins>
     </build>
 

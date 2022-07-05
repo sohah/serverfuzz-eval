@@ -20,8 +20,8 @@ public class BasicTest {
     static int testCount = 0;
     @BeforeClass
     public static void setupEnv() {
-        LambdaFuzzingInput.setupS3EventLambda("de.rieckpil.blog.ThumbnailHandler",
-                "public java.lang.Void de.rieckpil.blog.ThumbnailHandler.handleRequest(com.amazonaws.services.lambda.runtime.events.S3Event,com.amazonaws.services.lambda.runtime.Context)",
+        LambdaFuzzingInput.setupS3EventLambda("com.amazonaws.services.lambda.CreateAthenaPartitionsBasedOnS3Event",
+                "public java.lang.Void com.amazonaws.services.lambda.CreateAthenaPartitionsBasedOnS3Event.handleRequest(com.amazonaws.services.lambda.runtime.events.S3Event,com.amazonaws.services.lambda.runtime.Context)",
                 LambdaFuzzingInput.S3EventTypes.OBJECT_CREATED_PUT, "my-bucket");
         Environment.initFUZZ_DIR();
       Config.isDebugModeOn = true;
@@ -38,19 +38,19 @@ public class BasicTest {
     }
 
 
-  /*@Fuzz
+  @Fuzz
   public void fuzzLambdaS3Event(@From(EnvironmentGenerator.class) Event env) throws IllegalArgumentException {
-    System.out.println("before running JQF Testcase " + testCount);
-
-    (new ThumbnailHandler()).handleRequest((S3Event) env.event, null);
-    System.out.println("after running JQF Testcase " + testCount);
-  }*/
-
-  @Fuzz(repro = "target/fuzz-results/BasicTest/fuzzLambdaS3Event/corpus")
-  public void fuzzLambdaS3EventRepro(@From(EnvironmentGenerator.class) Event env) throws IllegalArgumentException {
     System.out.println("before running JQF Testcase " + testCount);
 
     (new CreateAthenaPartitionsBasedOnS3Event()).handleRequest((S3Event) env.event, null);
     System.out.println("after running JQF Testcase " + testCount);
   }
+
+  /*@Fuzz(repro = "target/fuzz-results/BasicTest/fuzzLambdaS3Event/corpus")
+  public void fuzzLambdaS3EventRepro(@From(EnvironmentGenerator.class) Event env) throws IllegalArgumentException {
+    System.out.println("before running JQF Testcase " + testCount);
+
+    (new CreateAthenaPartitionsBasedOnS3Event()).handleRequest((S3Event) env.event, null);
+    System.out.println("after running JQF Testcase " + testCount);
+  }*/
 }
