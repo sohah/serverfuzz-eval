@@ -20,7 +20,7 @@ import time
 def run_gitclone(repo):
     print(f'clonning github repo {repo}')
     repo = '/'.join(repo.split('/')[3:])
-    clone_command = f'git -C ../git-repos clone git@github.com:{repo}'
+    clone_command = f'git -C ../git-repos/round2 clone git@github.com:{repo}'
     subprocess.run(clone_command, shell=True, text=True)
 
 def run_maven(repo_path):
@@ -28,10 +28,20 @@ def run_maven(repo_path):
     mvn_output = subprocess.run(mvn_command, shell=True, text=True)
     print(mvn_output)
 
+
+def obtain_repo(starred_repo):
+    print('---------------- cloning and compiling starred repos ---------------- ')
+    print(starred_repo)
+    run_gitclone(starred_repo)
+    directory_name = starred_repo.split('/')[-1]
+    repo_path = f'../git-repos/round2/{directory_name}'
+    run_maven(repo_path)
+
 ##### begin of configuration to set for the script to run######
 
 wait_time = 30 # seconds
 wait_factor = 2 # the factor of increasing wait if we received an error in a request.
+addition_factor = 600 # constant wait of 10 minutes added when the wait time reaches one hour
 page = 1 #iteration of pagination
 pagination_limit = 26
 stars_limit = 5
@@ -47,7 +57,10 @@ while page <= pagination_limit:
     command_str = f'gh api --method=GET "search/code?q=com.amazonaws.services.lambda.runtime.events.S3Event&access_token=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&page={str(page)}&per_page=100\"'
     output = subprocess.run(command_str, capture_output=True, shell=True, text=True)
     if len(output.stderr) > 0: #non-empty error occurred; wait longer
-        wait_time *= wait_factor
+        if wait_time < 3600:  # when wait time is less than an hour multiply by wait_factor otherwise, use the constant_factor
+            wait_time *= wait_factor
+        else:
+            wait_time +=addition_factor
         print(f'github ban encountered, increasing waiting time. Wait time now = {wait_time}')
         time.sleep(wait_time)
     else:
@@ -73,7 +86,10 @@ while page <= pagination_limit:
             github_stars_url = 'gh api ' + github_stars_url.replace('https://api.github.com/','') #removing the header
             output = subprocess.run(github_stars_url, capture_output=True, shell=True, text=True)
             if len(output.stderr) > 0:  # non-empty error occurred, wait longer
-                wait_time *= wait_factor
+                if wait_time < 3600:  # when wait time is less than an hour multiply by wait_factor otherwise, use the constant_factor
+                    wait_time *= wait_factor
+                else:
+                    wait_time += addition_factor
                 print(f'github ban encountered, increasing waiting time. Wait time now = {wait_time}')
                 time.sleep(wait_time)
             else:
@@ -87,14 +103,15 @@ while page <= pagination_limit:
                         print(f'found interesting repo:{https_repo_name} with stars={num_of_stars} for item:{item}')
                         f.write(f'{https_repo_name}, {num_of_stars}\n')
                         repos_with_stars.append(https_repo_name)
+                        obtain_repo(https_repo_name)
 
 f.close()
 
-print('---------------- cloning and compiling starred repos ---------------- ')
-for starred_repo in repos_with_stars:
-    print(starred_repo)
-    run_gitclone(starred_repo)
-    directory_name = starred_repo.split('/')[-1]
-    repo_path = f'../git-repos/round2/{directory_name}'
-    run_maven(repo_path)
-
+# print('---------------- cloning and compiling starred repos ---------------- ')
+# for starred_repo in repos_with_stars:
+#     print(starred_repo)
+#     run_gitclone(starred_repo)
+#     directory_name = starred_repo.split('/')[-1]
+#     repo_path = f'../git-repos/round2/{directory_name}'
+#     run_maven(repo_path)
+#
