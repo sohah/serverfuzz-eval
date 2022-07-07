@@ -33,13 +33,13 @@ def run_maven(repo_path):
 wait_time = 30 # seconds
 wait_factor = 2 # the factor of increasing wait if we received an error in a request.
 page = 1 #iteration of pagination
-pagination_limit = 5
+pagination_limit = 26
 stars_limit = 5
 ##### end of configuration to set for the script to run######
 
 repos_with_stars = []
 counter = 0
-f = open('starred_repos.txt', 'w')
+f = open('starred_repos_round2.txt', 'w')
 f.write('starred_repo, #stars')
 
 while page <= pagination_limit:
@@ -59,6 +59,10 @@ while page <= pagination_limit:
         items_len = len(result['items'])
         while repo_index < items_len:
             item = result['items'][repo_index]
+            if '.java' not in item['name']:
+                counter += 1
+                repo_index += 1
+                continue
             github_repo = item['repository']['url']
             github_stars_url = item['repository']['stargazers_url']
             if 'sohah' in github_stars_url: # skipping my repo
@@ -77,10 +81,11 @@ while page <= pagination_limit:
                 repo_index += 1
                 num_of_stars = len(json.loads(output.stdout or '{}'))
                 if num_of_stars >= stars_limit:
+                    print(f'item collected of interest:{item}')
                     https_repo_name = item['repository']['html_url']
-                    print(f'found interesting repo:{https_repo_name} with stars={num_of_stars} for item:{item}')
-                    f.write(f'{https_repo_name}, {num_of_stars}\n')
-                    if https_repo_name not in repos_with_stars: # do not allow duplicate clones
+                    if https_repo_name not in repos_with_stars:  # do not allow duplicate clones
+                        print(f'found interesting repo:{https_repo_name} with stars={num_of_stars} for item:{item}')
+                        f.write(f'{https_repo_name}, {num_of_stars}\n')
                         repos_with_stars.append(https_repo_name)
 
 f.close()
@@ -90,6 +95,6 @@ for starred_repo in repos_with_stars:
     print(starred_repo)
     run_gitclone(starred_repo)
     directory_name = starred_repo.split('/')[-1]
-    repo_path = f'../git-repos/{directory_name}'
+    repo_path = f'../git-repos/round2/{directory_name}'
     run_maven(repo_path)
 
