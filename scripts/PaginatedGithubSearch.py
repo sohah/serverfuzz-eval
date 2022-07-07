@@ -43,46 +43,20 @@ def obtain_repo(starred_repo):
 wait_time = 30 # seconds
 wait_factor = 2 # the factor of increasing wait if we received an error in a request.
 addition_factor = 600 # constant wait of 10 minutes added when the wait time reaches one hour
-page = 1 #iteration of pagination
+page = 0 #iteration of pagination
 pagination_limit = 10
 stars_limit = 5
 ##### end of configuration to set for the script to run######
 
 repos_with_stars = []
 counter = 0
-# pulled_repos = ["https://github.com/mengjiann/aws-lambda-s3",
-# "https://github.com/amazon-archives/serverless-cf-analysis",
-# "https://github.com/fdanismaz/java",
-# "https://github.com/rieckpil/blog-tutorials",
-# "https://github.com/symphoniacloud/programming-aws-lambda-book",
-# "https://github.com/smupyknight/java---ppt2png-aws-lambda",
-# "https://github.com/goosefraba/aws-lambda-java-template",
-# "https://github.com/markusklems/programming-aws-lambda",
-# "https://github.com/awsdocs/aws-lambda-developer-guide",
-# "https://github.com/cagataygurturk/serverlessbook",
-# "https://github.com/markfisher/spring-cloud-function-adapters",
-# "https://github.com/wazcov/AWS-Java-Samples",
-# "https://github.com/PacktPublishing/AWS-Lambda-Quick-Start-Guide",
-# "https://github.com/garciapau/LambdaRidingCamel",
-# "https://github.com/aws-samples/amazon-textract-searchable-pdf",
-# "https://github.com/ttulka/aws-samples",
-# "https://github.com/aws/aws-toolkit-eclipse",
-# "https://github.com/shriaithal/Cloudbread",
-# "https://github.com/aws/aws-lambda-java-libs",
-# "https://github.com/aliakh/demo-ci-cd-lambda-function",
-# "https://github.com/elastic/apm-agent-java",
-# "https://github.com/xebia-os/lambda-coding-round-evaluator",
-# "https://github.com/markwest1972/smart-security-camera",
-# "https://github.com/aws-samples/aws-big-data-blog",
-# "https://github.com/quarkusio/quarkus",
-# "https://github.com/kdgregory/example-lambda-java"]
 
 f = open('starred_repos.txt', 'r+')
 pulled_repos = f.read()  # reading all the existing pulled repos
 f.write('starred_repo, #stars\n')
 
 
-while page <= pagination_limit:
+while page < pagination_limit:
     time_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print(f'----------------  trying page #{page} : {time_now} ---------------- ')
     command_str = f'gh api --method=GET "search/code?q=com.amazonaws.services.lambda.runtime.events.S3Event&access_token=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&page={str(page)}&per_page=100\"'
@@ -129,7 +103,7 @@ while page <= pagination_limit:
                 repo_index += 1
                 num_of_stars = len(json.loads(output.stdout or '{}'))
                 if num_of_stars >= stars_limit:
-                    print(f'item collected of interest:{item}')
+                    print(f'candidate repo (checking if already pulled):{item}')
                     https_repo_name = item['repository']['html_url']
                     if https_repo_name not in repos_with_stars and https_repo_name not in pulled_repos:  # do not allow duplicate clones
                         print(f'found interesting repo:{https_repo_name} with stars={num_of_stars} for item:{item}')

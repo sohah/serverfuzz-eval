@@ -37,3 +37,15 @@ https://github.com/aliakh/demo-ci-cd-lambda-function, 5
 https://github.com/garciapau/LambdaRidingCamel, 7
 https://github.com/monitorjbl/eve-intel, 5
 https://github.com/Graylog2/graylog-s3-lambda, 9
+starred_repo, #stars
+https://github.com/goosefraba/aws-lambda-java-template, 9
+https://github.com/gnethercutt/tika-lambda, 7
+https://github.com/elastic/apm-agent-java, 30
+https://github.com/aws-samples/aws-big-data-blog, 30
+https://github.com/xebia-os/lambda-coding-round-evaluator, 30
+https://github.com/markwest1972/smart-security-camera, 30
+https://github.com/rieckpil/learning-samples, 8
+https://github.com/PacktPublishing/Building-Serverless-Architectures, 14
+https://github.com/cloudflare/cloudflare-elastic, 29
+https://github.com/provectus/streaming-data-platform, 21
+https://github.com/smupyknight/java---ppt2png-aws-lambda, 5

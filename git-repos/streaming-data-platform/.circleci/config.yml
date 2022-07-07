@@ -1,0 +1,61 @@
+version: 2
+jobs:
+  jobs/release:
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+        working_directory: ~/circleci
+
+    steps:
+      - checkout
+      - run: sudo apt-get update && sudo apt-get install -y python3-pip
+      - run: sudo pip3 install awscli
+      - run: mvn -B package
+      - run:
+          name: Deploy a package to the all regions
+          command: |
+            REGIONS="us-east-1 us-east-2 us-west-2 eu-west-1 eu-central-1"
+            for region in ${REGIONS}; do
+              export AWS_DEFAULT_REGION=$region
+              ./stack.sh -p -c \
+                -b streaming-data-platform-releases-${AWS_DEFAULT_REGION} \
+                -r ${AWS_DEFAULT_REGION} \
+                -v $CIRCLE_TAG
+            done
+
+  jobs/integration-test:
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+        working_directory: ~/circleci
+
+    steps:
+      - checkout
+      - run: sudo apt-get update && sudo apt-get install -y python3-pip
+      - run: sudo pip3 install awscli
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+      - run: mvn -B -s settings.xml package
+      - run: mvn -B -s settings.xml verify -DresourceBucket=fdp-itstack-us-west-2
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - jobs/release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
+
+      - jobs/integration-test:
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /.*/

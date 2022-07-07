@@ -1,0 +1,27 @@
+starred_repo, #starshttps://github.com/iopipe/iopipe-java, 17
+https://github.com/mengjiann/aws-lambda-s3, 9
+https://github.com/amazon-archives/serverless-cf-analysis, 6
+https://github.com/symphoniacloud/programming-aws-lambda-book, 30
+https://github.com/fdanismaz/java, 12
+https://github.com/rieckpil/blog-tutorials, 30
+https://github.com/smupyknight/java---ppt2png-aws-lambda, 5
+https://github.com/markusklems/programming-aws-lambda, 8
+https://github.com/simplescf/scfgui, 6
+https://github.com/goosefraba/aws-lambda-java-template, 9
+https://github.com/cagataygurturk/serverlessbook, 5
+https://github.com/markfisher/spring-cloud-function-adapters, 10
+https://github.com/wazcov/AWS-Java-Samples, 30
+https://github.com/PacktPublishing/AWS-Lambda-Quick-Start-Guide, 11
+https://github.com/garciapau/LambdaRidingCamel, 7
+https://github.com/aws-samples/amazon-textract-searchable-pdf, 30
+https://github.com/aws/aws-toolkit-eclipse, 30
+https://github.com/shriaithal/Cloudbread, 14
+https://github.com/aws/aws-lambda-java-libs, 30
+https://github.com/aliakh/demo-ci-cd-lambda-function, 5
+https://github.com/aws-samples/aws-big-data-blog, 30
+https://github.com/xebia-os/lambda-coding-round-evaluator, 30
+https://github.com/markwest1972/smart-security-camera, 30
+https://github.com/ttulka/aws-samples, 5
+https://github.com/provectus/streaming-data-platform, 21
+https://github.com/rieckpil/learning-samples, 8
+https://github.com/cloudflare/cloudflare-elastic, 29

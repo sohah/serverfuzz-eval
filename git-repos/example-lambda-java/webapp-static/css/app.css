@@ -1,0 +1,76 @@
+BODY {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-family: Calibri, "Times New Roman", Times, serif;
+    font-size: 14pt;
+    color: #002564; background-color: #F8FFFF;
+}
+
+INPUT {
+    padding: 0.5em;
+}
+
+BUTTON {
+    padding: 0.5em 4em 0.5em 4em;
+    border-radius: 8px;
+    font-size: large;
+    font-weight: bold;
+}
+
+BUTTON.preferredButton {
+    background-color: #60C060;
+}
+
+BUTTON.secondaryButton {
+    background-color: #90A0D0;
+}
+
+DIV.errorMessage {
+    padding: 0.5em;
+    font-weight: bold;
+    color: red;
+}
+
+DIV.bordered {
+    margin: 1em;
+    border: 1px solid black;
+}
+
+DIV.formContainer {
+    position: relative;
+    width: 40%;
+    left: 25%;
+    padding: 1em;
+}
+
+.formContainer TH {
+    padding: 0.25em;
+    text-align: left;
+}
+
+.formContainer TD {
+    padding: 0.25em;
+}
+
+.formContainer .actionDesc {
+    margin-top: 4em;
+}
+
+DIV.listContainer {
+    position: relative;
+    width: 60%;
+    left: 15%;
+    padding: 1em;
+}
+
+TABLE.photoList {
+}
+
+TABLE.photoList TR {
+}
+
+TABLE.photoList TD {
+    padding: 1em;
+    vertical-align: top;
+}
