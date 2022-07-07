@@ -43,41 +43,42 @@ def obtain_repo(starred_repo):
 wait_time = 30 # seconds
 wait_factor = 2 # the factor of increasing wait if we received an error in a request.
 addition_factor = 600 # constant wait of 10 minutes added when the wait time reaches one hour
-page = 11 #iteration of pagination
-pagination_limit = 26
+page = 1 #iteration of pagination
+pagination_limit = 10
 stars_limit = 5
 ##### end of configuration to set for the script to run######
 
 repos_with_stars = []
 counter = 0
-pulled_repos = ["https://github.com/mengjiann/aws-lambda-s3",
-"https://github.com/amazon-archives/serverless-cf-analysis",
-"https://github.com/fdanismaz/java",
-"https://github.com/rieckpil/blog-tutorials",
-"https://github.com/symphoniacloud/programming-aws-lambda-book",
-"https://github.com/smupyknight/java---ppt2png-aws-lambda",
-"https://github.com/goosefraba/aws-lambda-java-template",
-"https://github.com/markusklems/programming-aws-lambda",
-"https://github.com/awsdocs/aws-lambda-developer-guide",
-"https://github.com/cagataygurturk/serverlessbook",
-"https://github.com/markfisher/spring-cloud-function-adapters",
-"https://github.com/wazcov/AWS-Java-Samples",
-"https://github.com/PacktPublishing/AWS-Lambda-Quick-Start-Guide",
-"https://github.com/garciapau/LambdaRidingCamel",
-"https://github.com/aws-samples/amazon-textract-searchable-pdf",
-"https://github.com/ttulka/aws-samples",
-"https://github.com/aws/aws-toolkit-eclipse",
-"https://github.com/shriaithal/Cloudbread",
-"https://github.com/aws/aws-lambda-java-libs",
-"https://github.com/aliakh/demo-ci-cd-lambda-function",
-"https://github.com/elastic/apm-agent-java",
-"https://github.com/xebia-os/lambda-coding-round-evaluator",
-"https://github.com/markwest1972/smart-security-camera",
-"https://github.com/aws-samples/aws-big-data-blog",
-"https://github.com/quarkusio/quarkus",
-"https://github.com/kdgregory/example-lambda-java"]
+# pulled_repos = ["https://github.com/mengjiann/aws-lambda-s3",
+# "https://github.com/amazon-archives/serverless-cf-analysis",
+# "https://github.com/fdanismaz/java",
+# "https://github.com/rieckpil/blog-tutorials",
+# "https://github.com/symphoniacloud/programming-aws-lambda-book",
+# "https://github.com/smupyknight/java---ppt2png-aws-lambda",
+# "https://github.com/goosefraba/aws-lambda-java-template",
+# "https://github.com/markusklems/programming-aws-lambda",
+# "https://github.com/awsdocs/aws-lambda-developer-guide",
+# "https://github.com/cagataygurturk/serverlessbook",
+# "https://github.com/markfisher/spring-cloud-function-adapters",
+# "https://github.com/wazcov/AWS-Java-Samples",
+# "https://github.com/PacktPublishing/AWS-Lambda-Quick-Start-Guide",
+# "https://github.com/garciapau/LambdaRidingCamel",
+# "https://github.com/aws-samples/amazon-textract-searchable-pdf",
+# "https://github.com/ttulka/aws-samples",
+# "https://github.com/aws/aws-toolkit-eclipse",
+# "https://github.com/shriaithal/Cloudbread",
+# "https://github.com/aws/aws-lambda-java-libs",
+# "https://github.com/aliakh/demo-ci-cd-lambda-function",
+# "https://github.com/elastic/apm-agent-java",
+# "https://github.com/xebia-os/lambda-coding-round-evaluator",
+# "https://github.com/markwest1972/smart-security-camera",
+# "https://github.com/aws-samples/aws-big-data-blog",
+# "https://github.com/quarkusio/quarkus",
+# "https://github.com/kdgregory/example-lambda-java"]
 
-f = open('starred_repos_round2_1.txt', 'w')
+f = open('starred_repos.txt', 'r+')
+pulled_repos = f.read()  # reading all the existing pulled repos
 f.write('starred_repo, #stars\n')
 
 
