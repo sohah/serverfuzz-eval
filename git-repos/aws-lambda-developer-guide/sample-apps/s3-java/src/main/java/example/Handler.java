@@ -33,7 +33,7 @@ import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static serverfuzz.env.S3Env.prepareS3;
+import static serverfuzz.ServiceBuilder.prepareS3;
 
 // Handler value: example.Handler
 public class Handler implements RequestHandler<S3Event, String> {
