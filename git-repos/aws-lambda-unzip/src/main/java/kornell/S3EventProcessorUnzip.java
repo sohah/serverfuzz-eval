@@ -21,24 +21,23 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.S3Event;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 
-import static awsfuzz.env.Environment.LOCAL_STACK_ENDPOINT;
-
+import static serverfuzz.ServiceBuilder.prepareS3;
 
 public class S3EventProcessorUnzip implements RequestHandler<S3Event, String> {
     public static final String AWS_REGION = "us-east-1";
 //    public final String S3_ENDPOINT = "http://" + System.getenv("LOCALSTACK_HOSTNAME") + ":4566";
 
     public static AmazonS3 s3Client = prepareS3();
+
     public String handleRequest(S3Event s3Event, Context context) {
         byte[] buffer = new byte[1024];
         try {
-            for (S3EventNotification.S3EventNotificationRecord record: s3Event.getRecords()) {
+            for (S3EventNotification.S3EventNotificationRecord record : s3Event.getRecords()) {
                 String srcBucket = record.getS3().getBucket().getName();
 
                 // Object key may have spaces or unicode non-ASCII characters.
@@ -58,14 +57,14 @@ public class S3EventProcessorUnzip implements RequestHandler<S3Event, String> {
                     return "";
                 }
                 System.out.println("Extracting zip file " + srcBucket + "/" + srcKey);
-                
+
                 // Download the zip from S3 into a stream
                 // AmazonS3 s3Client = new AmazonS3Client();
                 S3Object s3Object = s3Client.getObject(new GetObjectRequest(srcBucket, srcKey));
                 ZipInputStream zis = new ZipInputStream(s3Object.getObjectContent());
                 ZipEntry entry = zis.getNextEntry();
 
-                while(entry != null) {
+                while (entry != null) {
                     String fileName = entry.getName();
                     String mimeType = FileMimeType.fromExtension(FilenameUtils.getExtension(fileName)).mimeType();
                     System.out.println("Extracting " + fileName + ", compressed: " + entry.getCompressedSize() + " bytes, extracted: " + entry.getSize() + " bytes, mimetype: " + mimeType);
@@ -85,7 +84,7 @@ public class S3EventProcessorUnzip implements RequestHandler<S3Event, String> {
                 }
                 zis.closeEntry();
                 zis.close();
-                
+
                 //delete zip file when done
                 System.out.println("Deleting zip file " + srcBucket + "/" + srcKey + "...");
                 s3Client.deleteObject(new DeleteObjectRequest(srcBucket, srcKey));
@@ -96,18 +95,4 @@ public class S3EventProcessorUnzip implements RequestHandler<S3Event, String> {
             throw new RuntimeException(e);
         }
     }
-
-    private static AmazonS3 prepareS3() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials("foo", "bar");
-
-        AwsClientBuilder.EndpointConfiguration config =
-                new AwsClientBuilder.EndpointConfiguration(LOCAL_STACK_ENDPOINT, AWS_REGION);
-
-        AmazonS3ClientBuilder builder = AmazonS3ClientBuilder.standard();
-        builder.withEndpointConfiguration(config);
-        builder.withPathStyleAccessEnabled(true);
-        builder.withCredentials(new AWSStaticCredentialsProvider(credentials));
-        return builder.build();
-    }
-
 }
