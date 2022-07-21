@@ -1,8 +1,10 @@
 package lambda.constants;
 
-import amazon.aws.lambda.enumeration.DynamodbEnum;
-import amazon.aws.lambda.enumeration.RDSEnum;
+/*import amazon.aws.lambda.enumeration.DynamodbEnum;
+import amazon.aws.lambda.enumeration.RDSEnum;*/
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import lambda.enumeration.DynamodbEnum;
+import lambda.enumeration.RDSEnum;
 
 /**
  * Constants
