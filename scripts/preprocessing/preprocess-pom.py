@@ -45,6 +45,19 @@ for mapping in pom.findall('.//m:dependencies/m:dependency', nsmap):
         else:
             version.text = new_version
 
+dependencies = pom.findall('.//m:dependencies', nsmap)
+
+# serverfuzz_dependency = ET.Element('dependency')
+serverfuzz_dependency = ET.SubElement(dependencies[len(dependencies) - 1], 'dependency')
+group_id = ET.SubElement(serverfuzz_dependency, 'groupId')
+group_id.text = 'edu.umn.cs'
+artifactId = ET.SubElement(serverfuzz_dependency, 'artifactId')
+artifactId.text = 'serverfuzz'
+version = ET.SubElement(serverfuzz_dependency, 'version')
+version.text = '1.0-SNAPSHOT'
+
+# ET.tostring(root)
+
 with open('after/pom.xml', 'wb') as f:
     pom.write(f)
 
